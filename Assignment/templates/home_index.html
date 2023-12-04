@@ -1,0 +1,45 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes Platform</title>
+</head>
+<body>
+    <h1>My Notes</h1>
+    <ul id="notes-list"></ul>
+
+    <script>
+        // Fetch notes when the page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchNotes();
+        });
+
+        // Function to fetch notes from the API
+        function fetchNotes() {
+            fetch('/notes', {
+                method: 'GET',
+                headers: {
+                    'user_id': 'your_user_id'  // Replace with the actual user_id
+                }
+            })
+            .then(response => response.json())
+            .then(notes => displayNotes(notes))
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Function to display notes on the page
+        function displayNotes(notes) {
+            const notesList = document.getElementById('notes-list');
+            notesList.innerHTML = '';
+
+            notes.forEach(note => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<strong>${note.title}</strong>: ${note.content}`;
+                notesList.appendChild(listItem);
+            });
+        }
+    </script>
+</body>
+</html>

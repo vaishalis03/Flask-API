@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Task</title>
+</head>
+<body>
+    <h1>Edit Task</h1>
+    <form action="{{ url_for('edit', task_id=task[0]) }}" method="post">
+        <label for="task">Task:</label>
+        <input type="text" id="task" name="task" value="{{ task[1] }}" required>
+        <button type="submit">Update Task</button>
+    </form>
+    <a href="{{ url_for('index') }}">Back to Tasks</a>
+</body>
+</html>

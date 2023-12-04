@@ -1,0 +1,72 @@
+<!-- templates/edit_note.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Note</title>
+</head>
+<body>
+    <h1>Edit Note</h1>
+    <form id="edit-note-form">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required>
+        <br>
+        <label for="content">Content:</label>
+        <textarea id="content" name="content" required></textarea>
+        <br>
+        <button type="button" onclick="editNote()">Update Note</button>
+    </form>
+
+    <script>
+        // Fetch note details when the page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchNoteDetails();
+        });
+
+        // Function to fetch note details from the API
+        function fetchNoteDetails() {
+            const noteId = {{ note_id }};
+            fetch(`/notes/${noteId}`, {
+                method: 'GET',
+                headers: {
+                    'user_id': 'your_user_id'  // Replace with the actual user_id
+                }
+            })
+            .then(response => response.json())
+            .then(note => displayNoteDetails(note))
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Function to display note details on the page
+        function displayNoteDetails(note) {
+            document.getElementById('title').value = note.title;
+            document.getElementById('content').value = note.content;
+        }
+
+        // Function to update a note
+        function editNote() {
+            const noteId = {{ note_id }};
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('content').value;
+
+            fetch(`/notes/${noteId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'user_id': 'your_user_id'  // Replace with the actual user_id
+                },
+                body: JSON.stringify({ title, content })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Note updated successfully');
+                } else {
+                    alert('Failed to update note');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

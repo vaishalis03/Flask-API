@@ -1,0 +1,38 @@
+<!-- templates/delete_note.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Note</title>
+</head>
+<body>
+    <h1>Delete Note</h1>
+    <p>Are you sure you want to delete this note?</p>
+    <button type="button" onclick="deleteNote()">Yes, Delete</button>
+
+    <script>
+        // Function to delete a note
+        function deleteNote() {
+            const noteId = {{ note_id }};
+
+            fetch(`/notes/${noteId}`, {
+                method: 'DELETE',
+                headers: {
+                    'user_id': 'your_user_id'  // Replace with the actual user_id
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Note deleted successfully');
+                    // Redirect to the home page after deletion
+                    window.location.href = '/';
+                } else {
+                    alert('Failed to delete note');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
